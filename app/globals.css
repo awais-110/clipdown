@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --accent: #a855f7;
+  --background: #0a0a0f;
+  --surface: #111118;
+  --border: #1e1e2e;
+  --text: #f1f5f9;
+  --text-muted: #64748b;
+  --gradient: linear-gradient(135deg, #6366f1, #a855f7, #3b82f6);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--text);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-geist);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 35%, white);
+  color: white;
+}
+
+.glass-panel {
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(18px);
+}
+
+.mesh-bg {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.32), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(168, 85, 247, 0.24), transparent 24%),
+    radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.16), transparent 32%),
+    linear-gradient(180deg, #0a0a0f 0%, #0d101a 100%);
+}
+
+.noise {
+  position: relative;
+}
+
+.noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: radial-gradient(currentColor 0.8px, transparent 0.8px);
+  background-size: 18px 18px;
+}
