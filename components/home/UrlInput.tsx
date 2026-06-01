@@ -1,52 +1,73 @@
 'use client';
 
-import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { detectPlatform } from "@/lib/urlDetector";
-
-const invalidSchemes = /^(javascript:|data:)/i;
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { isValidUrl } from "@/lib/urlDetector";
 
 export function UrlInput() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const platform = useMemo(() => detectPlatform(url), [url]);
-  const error = url && !/^https?:\/\//i.test(url) ? "Enter a full https URL." : invalidSchemes.test(url) ? "This URL scheme is blocked." : "";
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   async function handleSubmit() {
-    if (error) return;
+    setError("");
+    const trimmed = url.trim();
+
+    if (!trimmed) {
+      setError("Please paste a video URL");
+      return;
+    }
+
+    if (!isValidUrl(trimmed)) {
+      setError("Unsupported platform. Try YouTube, TikTok, Instagram, or Facebook.");
+      return;
+    }
+
     setLoading(true);
     try {
-      window.location.href = `/download/${encodeURIComponent(btoa(url))}`;
+      const response = await fetch("/api/extract", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: trimmed }),
+      });
+
+      const data = (await response.json()) as { id?: string; error?: string };
+
+      if (!response.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      sessionStorage.setItem(`video_${data.id}`, JSON.stringify(data));
+      router.push(`/download/${data.id}`);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="glass-panel rounded-[2rem] p-3 sm:p-4">
-      <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-        <div className="relative">
-          <Input
-            value={url}
-            onChange={(event) => setUrl(event.target.value)}
-            placeholder="Paste a TikTok, YouTube, Instagram, or X link"
-            aria-label="Video URL"
-          />
-          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background px-3 py-1 text-xs text-text-muted">
-            {platform === "unknown" ? "Auto-detect" : platform}
-          </span>
-        </div>
-        <Button type="button" onClick={handleSubmit} disabled={loading}>
-          {loading ? "Preparing..." : "Download"}
-        </Button>
-      </div>
-      <div className="mt-3 flex items-center justify-between text-xs text-text-muted">
-        <span>{error || "Public URLs only. Private or protected content is not supported."}</span>
-        <button type="button" className="text-text transition hover:text-white" onClick={() => navigator.clipboard.readText().then(setUrl).catch(() => undefined)}>
-          Paste
+    <div className="w-full max-w-2xl mx-auto">
+      <div className="flex gap-2">
+        <input
+          type="url"
+          value={url}
+          onChange={(event) => setUrl(event.target.value)}
+          onPaste={(event) => setUrl(event.clipboardData.getData("text"))}
+          placeholder="Paste video URL here — YouTube, TikTok, Instagram..."
+          className="flex-1 rounded-xl border border-white/20 bg-white/10 px-5 py-4 text-base text-white placeholder-white/40 focus:border-indigo-500 focus:outline-none"
+          onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
+        />
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={loading}
+          className="rounded-xl bg-indigo-600 px-8 py-4 font-semibold whitespace-nowrap text-white transition-colors duration-200 hover:bg-indigo-700 disabled:opacity-60"
+        >
+          {loading ? "Extracting..." : "Download"}
         </button>
       </div>
+      {error ? <p className="mt-3 text-sm text-red-400">{error}</p> : null}
     </div>
   );
 }

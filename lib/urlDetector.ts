@@ -9,31 +9,35 @@ export type Platform =
   | "dailymotion"
   | "unknown";
 
-const detectors: Array<{ platform: Exclude<Platform, "unknown">; patterns: RegExp[] }> = [
-  { platform: "youtube", patterns: [/youtu\.be/i, /youtube\.com/i] },
-  { platform: "tiktok", patterns: [/tiktok\.com/i] },
-  { platform: "instagram", patterns: [/instagram\.com/i] },
-  { platform: "facebook", patterns: [/facebook\.com/i, /fb\.watch/i] },
-  { platform: "twitter", patterns: [/twitter\.com/i, /x\.com/i] },
-  { platform: "pinterest", patterns: [/pinterest\.com/i] },
-  { platform: "vimeo", patterns: [/vimeo\.com/i] },
-  { platform: "dailymotion", patterns: [/dailymotion\.com/i] },
+const detectors: Array<{ platform: Exclude<Platform, "unknown">; test: (hostname: string) => boolean }> = [
+  { platform: "youtube", test: (hostname) => hostname.includes("youtube.com") || hostname.includes("youtu.be") },
+  { platform: "tiktok", test: (hostname) => hostname.includes("tiktok.com") },
+  { platform: "instagram", test: (hostname) => hostname.includes("instagram.com") },
+  { platform: "facebook", test: (hostname) => hostname.includes("facebook.com") || hostname.includes("fb.watch") },
+  { platform: "twitter", test: (hostname) => hostname.includes("twitter.com") || hostname.includes("x.com") },
+  { platform: "pinterest", test: (hostname) => hostname.includes("pinterest.com") },
+  { platform: "vimeo", test: (hostname) => hostname.includes("vimeo.com") },
+  { platform: "dailymotion", test: (hostname) => hostname.includes("dailymotion.com") },
 ];
 
 export function detectPlatform(url: string): Platform {
-  for (const detector of detectors) {
-    if (detector.patterns.some((pattern) => pattern.test(url))) {
-      return detector.platform;
+  try {
+    const { hostname } = new URL(url);
+    for (const detector of detectors) {
+      if (detector.test(hostname)) {
+        return detector.platform;
+      }
     }
+    return "unknown";
+  } catch {
+    return "unknown";
   }
-
-  return "unknown";
 }
 
-export function isSafeDownloadUrl(url: string) {
+export function isValidUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
-    return ["http:", "https:"].includes(parsed.protocol);
+    return ["http:", "https:"].includes(parsed.protocol) && detectPlatform(url) !== "unknown";
   } catch {
     return false;
   }

@@ -1,23 +1,27 @@
 'use client';
 
-import { useState } from "react";
+import type { VideoFormat } from "@/lib/extractor";
 import { Tab, TabsList } from "@/components/ui/tabs";
 
-const qualities = ["360p", "480p", "720p", "1080p", "Best"];
+type Props = {
+  formats: VideoFormat[];
+  selected: VideoFormat;
+  onSelect: (format: VideoFormat) => void;
+};
 
-export function QualitySelector() {
-  const [quality, setQuality] = useState("1080p");
+export function QualitySelector({ formats, selected, onSelect }: Props) {
+  const mp4Formats = formats.filter((format) => format.format === "mp4");
 
   return (
     <div>
       <TabsList>
-        {qualities.map((item) => (
-          <Tab key={item} active={quality === item} onClick={() => setQuality(item)}>
-            {item}
+        {mp4Formats.map((format) => (
+          <Tab key={`${format.quality}-${format.url}`} active={selected.url === format.url} onClick={() => onSelect(format)}>
+            {format.quality}
           </Tab>
         ))}
       </TabsList>
-      <p className="mt-3 text-sm text-text-muted">Selected quality: {quality}</p>
+      <p className="mt-3 text-sm text-text-muted">Selected quality: {selected.quality}</p>
     </div>
   );
 }

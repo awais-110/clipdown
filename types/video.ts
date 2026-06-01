@@ -1,7 +1,7 @@
 export type VideoFormat = {
   quality: string;
   format: "mp4" | "mp3";
-  size: string;
+  size?: string;
   url: string;
 };
 
@@ -10,7 +10,7 @@ export type VideoInfo = {
   platform: string;
   title: string;
   thumbnail: string;
-  duration: number;
+  duration: string;
   author: string;
   formats: VideoFormat[];
 };

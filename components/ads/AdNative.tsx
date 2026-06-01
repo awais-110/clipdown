@@ -5,8 +5,9 @@ import { useEffect } from "react";
 export function AdNative({ slot }: { slot: string }) {
   useEffect(() => {
     try {
-      (window as Window & { adsbygoogle?: unknown[] }).adsbygoogle = (window as Window & { adsbygoogle?: unknown[] }).adsbygoogle || [];
-      (window as Window & { adsbygoogle?: unknown[] }).adsbygoogle.push({});
+      const adsWindow = window as Window & { adsbygoogle?: Array<Record<string, unknown>> };
+      adsWindow.adsbygoogle = adsWindow.adsbygoogle || [];
+      adsWindow.adsbygoogle.push({});
     } catch {
       // ignore AdSense runtime errors in local development
     }
