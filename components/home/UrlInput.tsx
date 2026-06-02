@@ -65,10 +65,12 @@ export function UrlInput() {
 
   return (
     <div className="w-full">
-      <div className={`rounded-[22px] border bg-white p-2 shadow-[0_18px_50px_rgba(32,54,86,0.10)] transition-colors ${error ? "border-[#ef4444]" : "border-[#dfe7f2]"}`}>
-        <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_190px]">
-          <div className="flex min-h-[60px] min-w-0 items-center gap-3 rounded-2xl bg-[#f7faff] px-4">
-            <LinkIcon className="h-5 w-5 flex-shrink-0 text-[#6b7280]" />
+      <div className={`rounded-[28px] border bg-white p-3 shadow-[0_30px_80px_rgba(32,54,86,0.16)] transition duration-200 ${error ? "border-[#ef4444]" : "border-[#cfddeb] hover:border-[#9fc7f3]"}`}>
+        <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_210px]">
+          <div className="flex h-[76px] min-w-0 items-center gap-3 rounded-[22px] bg-[#f6f9fd] px-4 ring-1 ring-transparent transition focus-within:bg-white focus-within:ring-[#0b84ff]/30 sm:px-5">
+            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-white text-[#6b7280] shadow-[0_8px_20px_rgba(30,41,59,0.07)]">
+              <LinkIcon className="h-5 w-5" />
+            </div>
             <input
               type="url"
               value={url}
@@ -84,8 +86,8 @@ export function UrlInput() {
                 }, 0);
               }}
               onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
-              placeholder="Paste a video link or shared text"
-              className="min-w-0 flex-1 bg-transparent text-base font-semibold text-[#20232a] outline-none placeholder:text-[#8a93a2]"
+              placeholder="Paste your video link here"
+              className="min-w-0 flex-1 bg-transparent text-base font-bold text-[#171b22] outline-none placeholder:font-bold placeholder:text-[#8a93a2] sm:text-lg"
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
@@ -98,7 +100,7 @@ export function UrlInput() {
                   setUrl("");
                   setError("");
                 }}
-                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-[#8a93a2] transition hover:bg-white hover:text-[#20232a]"
+                className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-[#8a93a2] transition hover:bg-white hover:text-[#20232a]"
                 aria-label="Clear URL"
               >
                 <X className="h-4 w-4" />
@@ -114,7 +116,7 @@ export function UrlInput() {
             type="button"
             onClick={handleSubmit}
             disabled={loading}
-            className="inline-flex min-h-[60px] items-center justify-center gap-2 rounded-2xl bg-[#0b84ff] px-5 text-base font-black text-white shadow-[0_12px_26px_rgba(11,132,255,0.28)] transition hover:bg-[#006ee0] disabled:opacity-60"
+            className="inline-flex h-[76px] items-center justify-center gap-2 rounded-[22px] bg-[#0b84ff] px-6 text-base font-black text-white shadow-[0_18px_40px_rgba(11,132,255,0.34)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#006ee0] active:translate-y-0 disabled:opacity-60 sm:text-lg"
           >
             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Download className="h-5 w-5" />}
             {loading ? "Preparing" : "Get links"}
@@ -122,13 +124,13 @@ export function UrlInput() {
         </div>
       </div>
 
-      <div className="mt-3 min-h-6 px-2 text-sm font-semibold">
+      <div className="mt-3 min-h-5 px-2 text-center text-sm font-semibold">
         {error ? (
           <p className="text-[#ef4444]">{error}</p>
         ) : detectedLabel ? (
           <p className="text-[#0b84ff]">{detectedLabel} link detected.</p>
         ) : (
-          <p className="text-[#6b7280]">Supports public links from major video and social platforms.</p>
+          <p className="text-[#6b7280]">Paste any supported public video URL.</p>
         )}
       </div>
     </div>

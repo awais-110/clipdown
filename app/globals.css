@@ -2,16 +2,16 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f5f8fc;
+  --bg: #f6f8fb;
   --surface: #ffffff;
-  --surface-2: #f0f4f9;
-  --border: rgba(15, 23, 42, 0.1);
-  --text: #20232a;
-  --text-muted: #64676e;
+  --surface-2: #eef4fa;
+  --border: rgba(15, 23, 42, 0.11);
+  --text: #171b22;
+  --text-muted: #5f6875;
   --primary: #0785ff;
-  --accent: #2d6cdf;
+  --accent: #0f766e;
   --accent-2: #e77822;
-  --gradient: linear-gradient(90deg, #1a73e8 0%, #5b70c9 42%, #a06f7d 68%, #e77822 100%);
+  --gradient: linear-gradient(90deg, #0b84ff 0%, #2563eb 48%, #0f766e 100%);
   --background: var(--bg);
   --foreground: var(--text);
 }
@@ -47,7 +47,8 @@ body {
   min-height: 100vh;
   overflow-x: clip;
   background:
-    linear-gradient(110deg, #edf5ff 0%, #ffffff 52%, #fff3ea 100%);
+    radial-gradient(circle at 12% 0%, rgba(11, 132, 255, 0.1), transparent 28rem),
+    linear-gradient(120deg, #f2f7fd 0%, #ffffff 54%, #f7fbf8 100%);
   color: var(--text);
   font-family: 'Inter', var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -59,7 +60,7 @@ main {
 
 ::selection {
   background: rgba(7, 133, 255, 0.22);
-  color: white;
+  color: var(--text);
 }
 
 button,
@@ -69,6 +70,15 @@ a {
 
 button {
   cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(7, 133, 255, 0.28);
+  outline-offset: 3px;
 }
 
 .gradient-text {
@@ -148,7 +158,7 @@ button {
 }
 
 .site-container {
-  width: min(calc(100% - 32px), 1120px);
+  width: min(calc(100% - 32px), 1140px);
   margin-inline: auto;
 }
 
@@ -164,7 +174,13 @@ button {
   border: 1px solid var(--border);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 24px 80px rgba(30, 41, 59, 0.08);
+  box-shadow: 0 14px 40px rgba(30, 41, 59, 0.06);
+}
+
+.premium-surface {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 20px 60px rgba(20, 35, 58, 0.08);
 }
 
 @media (max-width: 480px) {

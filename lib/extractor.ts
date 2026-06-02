@@ -1,6 +1,3 @@
-import { createHash } from "crypto";
-import { detectPlatform } from "@/lib/urlDetector";
-
 export interface VideoFormat {
   quality: string;
   format: "mp4" | "mp3";
@@ -23,43 +20,6 @@ function formatDuration(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-}
-
-function normalizeFormats(data: unknown): VideoFormat[] {
-  const formats: VideoFormat[] = [];
-  const links = Array.isArray((data as { links?: unknown[] } | null)?.links)
-    ? ((data as { links?: unknown[] }).links ?? [])
-    : [];
-
-  for (const link of links) {
-    if (!link || typeof link !== "object") continue;
-
-    const typedLink = link as {
-      quality?: string;
-      label?: string;
-      type?: string;
-      url?: string;
-      size?: string;
-    };
-
-    if (!typedLink.url) continue;
-
-    const quality = typedLink.quality || typedLink.label || "Best";
-    const isAudio =
-      quality.toLowerCase().includes("audio") ||
-      quality.toLowerCase().includes("mp3") ||
-      typedLink.type?.includes("audio") ||
-      typedLink.url.toLowerCase().includes("mp3");
-
-    formats.push({
-      quality: isAudio ? "audio" : quality,
-      format: isAudio ? "mp3" : "mp4",
-      url: typedLink.url,
-      size: typedLink.size || undefined,
-    });
-  }
-
-  return formats;
 }
 
 export async function extractVideo(url: string): Promise<VideoInfo> {

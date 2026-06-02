@@ -1,7 +1,5 @@
 import { HeroSection } from "@/components/home/HeroSection";
 import { PlatformGrid } from "@/components/home/PlatformGrid";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { FaqSection } from "@/components/home/FaqSection";
 
 const schema = {
   "@context": "https://schema.org",
@@ -18,8 +16,6 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <HeroSection />
       <PlatformGrid />
-      <HowItWorks />
-      <FaqSection />
     </main>
   );
 }

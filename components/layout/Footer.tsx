@@ -14,10 +14,10 @@ export function Footer() {
     <footer className="border-t border-[#e7ebf1] bg-white py-10">
       <div className="site-container flex flex-col items-center justify-between gap-6 sm:flex-row">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0b84ff] text-sm text-white">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#0b84ff] text-sm text-white shadow-[0_8px_20px_rgba(11,132,255,0.18)]">
             <CloudDownload className="h-5 w-5 fill-current" />
           </div>
-          <span className="font-black text-[#24262b]">SnapWC</span>
+          <span className="font-black text-[#24262b]">Video<span className="text-[#0b84ff]">Snap</span></span>
         </div>
 
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-semibold text-[#64676e]">

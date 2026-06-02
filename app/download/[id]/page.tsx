@@ -51,7 +51,7 @@ export default function DownloadPage() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#f5f8fc] px-4 pt-24">
         <div className="w-full max-w-md rounded-[22px] border border-[#dfe7f2] bg-white p-6 text-center shadow-[0_18px_50px_rgba(32,54,86,0.08)]">
-          <h1 className="text-2xl font-black text-[#20232a]">This download session expired</h1>
+          <h1 className="text-2xl font-black text-[#171b22]">This download session expired</h1>
           <p className="mt-3 text-sm leading-6 text-[#64676e]">Paste the link again so VideoSnap can prepare fresh download options.</p>
           <Link href="/#download" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#0b84ff] px-5 text-sm font-black text-white">
             Start over
@@ -76,14 +76,14 @@ export default function DownloadPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(145deg,#f3f8ff_0%,#ffffff_52%,#fff7f1_100%)] px-4 pb-16 pt-28 sm:pt-36">
+    <main className="min-h-screen bg-[linear-gradient(145deg,#f2f7fd_0%,#ffffff_52%,#f5fbf7_100%)] px-4 pb-16 pt-28 sm:pt-34">
       <div className="mx-auto w-full max-w-6xl">
-        <Link href="/" className="mb-5 inline-flex min-h-10 items-center gap-2 rounded-xl bg-white px-3 text-sm font-bold text-[#4b5563] shadow-[0_12px_30px_rgba(32,54,86,0.08)] transition hover:text-[#0b84ff]">
+        <Link href="/" className="mb-5 inline-flex min-h-10 items-center gap-2 rounded-xl border border-[#dfe7f2] bg-white px-3 text-sm font-bold text-[#4b5563] shadow-[0_12px_30px_rgba(32,54,86,0.07)] transition hover:text-[#0b84ff]">
           <ArrowLeft className="h-4 w-4" />
           New link
         </Link>
 
-        <div className="overflow-hidden rounded-[26px] border border-[#dfe7f2] bg-white shadow-[0_24px_80px_rgba(32,54,86,0.12)]">
+        <div className="overflow-hidden rounded-[24px] border border-[#d9e4f0] bg-white shadow-[0_24px_72px_rgba(32,54,86,0.11)]">
           <div className="grid lg:grid-cols-[minmax(0,1.05fr)_430px]">
             <div className="bg-[#111827] p-3 sm:p-5">
               <div className="relative aspect-video overflow-hidden rounded-[18px] bg-[#0b1020]">
@@ -108,8 +108,8 @@ export default function DownloadPage() {
             </div>
 
             <section className="p-5 sm:p-7">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0b84ff]">Ready to save</p>
-              <h1 className="mt-3 line-clamp-3 text-2xl font-black leading-tight text-[#20232a] sm:text-3xl">{video.title}</h1>
+              <p className="text-xs font-black uppercase tracking-[0.14em] text-[#0b84ff]">Ready to save</p>
+              <h1 className="mt-3 line-clamp-3 text-2xl font-black leading-tight text-[#171b22] sm:text-3xl">{video.title}</h1>
               <p className="mt-3 text-sm font-medium text-[#64676e]">
                 {video.author || "Unknown author"} {video.duration ? `· ${video.duration}` : ""}
               </p>
@@ -163,7 +163,7 @@ export default function DownloadPage() {
               <div className="mt-7 rounded-2xl border border-[#e1e8f2] bg-[#f7faff] p-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="text-sm font-black text-[#20232a]">
+                    <p className="text-sm font-black text-[#171b22]">
                       {selectedFormat.format.toUpperCase()} · {selectedFormat.quality}
                     </p>
                     <p className="mt-1 text-xs font-medium text-[#64676e]">{selectedFormat.size || "File size shown when available"}</p>
@@ -175,7 +175,7 @@ export default function DownloadPage() {
               <button
                 type="button"
                 onClick={handleDownload}
-                className="mt-5 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[#0b84ff] px-5 text-base font-black text-white shadow-[0_14px_34px_rgba(11,132,255,0.26)] transition hover:bg-[#006ee0]"
+                className="mt-5 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[#0b84ff] px-5 text-base font-black text-white shadow-[0_14px_34px_rgba(11,132,255,0.26)] transition duration-200 hover:bg-[#006ee0] active:translate-y-px"
               >
                 <Download className="h-5 w-5" />
                 Download selected file

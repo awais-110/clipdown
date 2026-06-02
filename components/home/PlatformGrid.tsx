@@ -1,42 +1,34 @@
 const platforms = [
-  { name: "YouTube", mark: "▶", desc: "Videos, Shorts, Playlists", color: "#ef4444" },
-  { name: "TikTok", mark: "♪", desc: "Clips, Videos, Stories", color: "#22d3ee" },
-  { name: "Instagram", mark: "◎", desc: "Reels, Posts, Stories", color: "#f472b6" },
-  { name: "Facebook", mark: "f", desc: "Videos, Reels, Live", color: "#60a5fa" },
-  { name: "Twitter / X", mark: "X", desc: "Videos, GIFs, Clips", color: "#e5e7eb" },
-  { name: "Pinterest", mark: "P", desc: "Videos, Idea Pins", color: "#fb7185" },
-  { name: "Vimeo", mark: "V", desc: "HD Videos, Clips", color: "#38bdf8" },
-  { name: "Dailymotion", mark: "D", desc: "Videos, Channels", color: "#3b82f6" },
+  { name: "YouTube", mark: "YT", color: "#ef4444", bg: "#fee2e2" },
+  { name: "TikTok", mark: "TK", color: "#111827", bg: "#eef2f7" },
+  { name: "Instagram", mark: "IG", color: "#db2777", bg: "#fce7f3" },
+  { name: "Facebook", mark: "FB", color: "#2563eb", bg: "#dbeafe" },
+  { name: "X", mark: "X", color: "#111827", bg: "#f3f4f6" },
+  { name: "Pinterest", mark: "P", color: "#dc2626", bg: "#fee2e2" },
+  { name: "Vimeo", mark: "V", color: "#0284c7", bg: "#e0f2fe" },
+  { name: "Dailymotion", mark: "D", color: "#2563eb", bg: "#dbeafe" },
 ];
 
 export function PlatformGrid() {
   return (
-    <section id="features" className="border-y border-[#e7ebf1] bg-white py-12 sm:py-16">
-      <div className="site-container">
-        <div className="mb-8 grid gap-4 sm:grid-cols-[minmax(0,1fr)_320px] sm:items-end">
-          <div className="max-w-2xl">
-            <p className="section-kicker">Supported Platforms</p>
-            <h2 className="mt-3 text-2xl font-black leading-tight text-[#20232a] sm:text-4xl">Built for the links people share every day.</h2>
-          </div>
-          <p className="text-sm leading-6 text-[#64676e]">
-            The interface detects supported sources while keeping the experience simple, scannable, and fast on phones.
-          </p>
+    <section id="features" className="bg-white pb-20 pt-2">
+      <div className="w-full px-4">
+        <div className="mx-auto mb-6 text-center">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0b84ff]">Supported platforms</p>
         </div>
-
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-[820px] grid-cols-2 gap-3 sm:grid-cols-4">
           {platforms.map((platform) => (
-            <div key={platform.name} className="soft-card group min-w-0 p-4 transition-colors hover:border-[#cdd8e6]">
-              <div className="mb-5 flex items-center justify-between gap-3">
-                <div
-                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md text-base font-black"
-                  style={{ color: platform.color, background: `${platform.color}1c` }}
-                >
-                  {platform.mark}
-                </div>
-                <div className="h-1.5 w-10 rounded-full bg-[#e6ebf2] transition-colors group-hover:bg-[#cbd6e3]" />
+            <div
+              key={platform.name}
+              className="flex h-[116px] flex-col items-center justify-center rounded-[22px] border border-[#e0e8f2] bg-white p-4 text-center shadow-[0_14px_36px_rgba(30,41,59,0.06)] transition duration-200 hover:-translate-y-0.5 hover:border-[#bfd2e8] hover:shadow-[0_22px_52px_rgba(30,41,59,0.10)]"
+            >
+              <div
+                className="flex h-[52px] w-[52px] items-center justify-center rounded-2xl text-sm font-black"
+                style={{ color: platform.color, background: platform.bg }}
+              >
+                {platform.mark}
               </div>
-              <h3 className="truncate text-sm font-bold text-[#20232a]">{platform.name}</h3>
-              <p className="mt-1 text-xs leading-5 text-[#64676e]">{platform.desc}</p>
+              <p className="mt-3 text-sm font-black text-[#171b22]">{platform.name}</p>
             </div>
           ))}
         </div>
