@@ -8,8 +8,10 @@ export function useDarkMode() {
   useEffect(() => {
     const stored = window.localStorage.getItem("videosnap-theme");
     if (stored) {
-      setDarkMode(stored === "dark");
+      const frame = window.requestAnimationFrame(() => setDarkMode(stored === "dark"));
+      return () => window.cancelAnimationFrame(frame);
     }
+    return undefined;
   }, []);
 
   useEffect(() => {

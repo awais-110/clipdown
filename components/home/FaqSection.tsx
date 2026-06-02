@@ -1,25 +1,51 @@
-import { Card } from "@/components/ui/card";
+"use client";
+
+import { useState } from "react";
+import { Plus } from "lucide-react";
 
 const faqs = [
-  ["Is this for public content only?", "Yes. The extractor is designed around public URLs and safety checks block unsafe schemes."],
-  ["Does it support mobile?", "The layout is responsive from 320px up and the sticky footer ad is mobile-only."],
-  ["Can admins manage blog posts?", "The admin route structure and editor shell are scaffolded for Supabase-backed CRUD."],
+  { q: "Is VideoSnap free?", a: "Yes. It is free to use with no signup, subscription, or watermark." },
+  { q: "Do I need to create an account?", a: "No. Paste a public video link and download without creating an account." },
+  { q: "Which platforms are supported?", a: "YouTube, TikTok, Instagram, Facebook, Twitter/X, Pinterest, Vimeo, and Dailymotion." },
+  { q: "What quality can I download?", a: "Available quality depends on the source video, with HD options shown when the platform provides them." },
+  { q: "Is it safe to use?", a: "VideoSnap validates links and only works with public URLs. Downloads are handled without changing your extraction flow." },
+  { q: "Why is my link not working?", a: "Make sure the video is public and the URL is copied from a supported platform." },
 ];
 
 export function FaqSection() {
+  const [open, setOpen] = useState<number | null>(null);
+
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <p className="text-sm uppercase tracking-[0.3em] text-primary">FAQ</p>
-        <h2 className="mt-3 font-display text-3xl font-semibold text-white sm:text-4xl">Common product questions.</h2>
-      </div>
-      <div className="grid gap-4">
-        {faqs.map(([question, answer]) => (
-          <Card key={question}>
-            <h3 className="text-lg font-medium text-white">{question}</h3>
-            <p className="mt-3 text-sm leading-7 text-text-muted">{answer}</p>
-          </Card>
-        ))}
+    <section className="bg-[#f7faff] pb-14 pt-2 sm:pb-18">
+      <div className="site-container grid max-w-5xl gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+        <div>
+          <p className="section-kicker">FAQ</p>
+          <h2 className="mt-2 text-2xl font-black leading-tight text-[#20232a] sm:text-4xl">Common questions.</h2>
+          <p className="mt-2 text-sm leading-6 text-[#64676e]">Short answers before you download.</p>
+        </div>
+
+        <div className="flex min-w-0 flex-col gap-2">
+          {faqs.map((faq, index) => (
+            <div
+              key={faq.q}
+              className={`rounded-lg border bg-white transition-colors duration-200 ${open === index ? "border-[#0785ff]" : "border-[#e7ebf1]"}`}
+            >
+              <button
+                type="button"
+                onClick={() => setOpen(open === index ? null : index)}
+                className="flex w-full items-center justify-between gap-4 px-4 py-3.5 text-left"
+              >
+                <span className="min-w-0 text-sm font-bold text-[#20232a]">{faq.q}</span>
+                <Plus className={`h-4 w-4 flex-shrink-0 text-[#9aa3af] transition-transform duration-200 ${open === index ? "rotate-45 text-[#0785ff]" : ""}`} />
+              </button>
+              {open === index ? (
+                <div className="px-4 pb-4">
+                  <p className="text-sm leading-6 text-[#64676e]">{faq.a}</p>
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

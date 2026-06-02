@@ -17,13 +17,13 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <section id="features" className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="grid gap-4 md:grid-cols-3">
         {features.map((feature) => (
           <Card key={feature.title} className="min-h-56">
-            <p className="text-xs uppercase tracking-[0.25em] text-primary">Feature</p>
+            <p className="text-xs uppercase tracking-[0.25em] text-indigo-300">Feature</p>
             <h3 className="mt-4 text-2xl font-medium text-white">{feature.title}</h3>
-            <p className="mt-3 text-sm leading-7 text-text-muted">{feature.description}</p>
+            <p className="mt-3 text-sm leading-7 text-white/45">{feature.description}</p>
           </Card>
         ))}
       </div>

@@ -1,38 +1,45 @@
-import { Card } from "@/components/ui/card";
-import { detectPlatform } from "@/lib/urlDetector";
-
 const platforms = [
-  "youtube.com/watch?v=demo",
-  "tiktok.com/@user/video/123",
-  "instagram.com/reel/demo",
-  "facebook.com/watch/demo",
-  "x.com/user/status/123",
-  "vimeo.com/123456",
+  { name: "YouTube", mark: "▶", desc: "Videos, Shorts, Playlists", color: "#ef4444" },
+  { name: "TikTok", mark: "♪", desc: "Clips, Videos, Stories", color: "#22d3ee" },
+  { name: "Instagram", mark: "◎", desc: "Reels, Posts, Stories", color: "#f472b6" },
+  { name: "Facebook", mark: "f", desc: "Videos, Reels, Live", color: "#60a5fa" },
+  { name: "Twitter / X", mark: "X", desc: "Videos, GIFs, Clips", color: "#e5e7eb" },
+  { name: "Pinterest", mark: "P", desc: "Videos, Idea Pins", color: "#fb7185" },
+  { name: "Vimeo", mark: "V", desc: "HD Videos, Clips", color: "#38bdf8" },
+  { name: "Dailymotion", mark: "D", desc: "Videos, Channels", color: "#3b82f6" },
 ];
 
 export function PlatformGrid() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mb-10 flex items-end justify-between gap-4">
-        <div>
-          <p className="text-sm uppercase tracking-[0.3em] text-primary">Supported Platforms</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-white sm:text-4xl">Branded platform cards with hover glow.</h2>
+    <section id="features" className="border-y border-[#e7ebf1] bg-white py-12 sm:py-16">
+      <div className="site-container">
+        <div className="mb-8 grid gap-4 sm:grid-cols-[minmax(0,1fr)_320px] sm:items-end">
+          <div className="max-w-2xl">
+            <p className="section-kicker">Supported Platforms</p>
+            <h2 className="mt-3 text-2xl font-black leading-tight text-[#20232a] sm:text-4xl">Built for the links people share every day.</h2>
+          </div>
+          <p className="text-sm leading-6 text-[#64676e]">
+            The interface detects supported sources while keeping the experience simple, scannable, and fast on phones.
+          </p>
         </div>
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {platforms.map((value) => {
-          const platform = detectPlatform(`https://${value}`);
-          return (
-            <Card key={value} className="group relative overflow-hidden transition hover:-translate-y-1 hover:border-primary/40">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 transition group-hover:opacity-100" />
-              <div className="relative">
-                <p className="text-xs uppercase tracking-[0.25em] text-text-muted">{platform}</p>
-                <h3 className="mt-4 text-xl font-medium text-white">{platform === "unknown" ? "Public Video Source" : platform.toUpperCase()}</h3>
-                <p className="mt-2 text-sm leading-6 text-text-muted">Optimized extraction and caching for fast return times.</p>
+
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {platforms.map((platform) => (
+            <div key={platform.name} className="soft-card group min-w-0 p-4 transition-colors hover:border-[#cdd8e6]">
+              <div className="mb-5 flex items-center justify-between gap-3">
+                <div
+                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md text-base font-black"
+                  style={{ color: platform.color, background: `${platform.color}1c` }}
+                >
+                  {platform.mark}
+                </div>
+                <div className="h-1.5 w-10 rounded-full bg-[#e6ebf2] transition-colors group-hover:bg-[#cbd6e3]" />
               </div>
-            </Card>
-          );
-        })}
+              <h3 className="truncate text-sm font-bold text-[#20232a]">{platform.name}</h3>
+              <p className="mt-1 text-xs leading-5 text-[#64676e]">{platform.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

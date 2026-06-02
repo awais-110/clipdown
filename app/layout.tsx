@@ -19,10 +19,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://videosnap.io"),
   title: {
-    default: "VideoSnap",
+    default: "VideoSnap — Download Any Video Free",
     template: "%s — VideoSnap",
   },
-  description: "Download publicly available videos instantly with a fast, premium SaaS experience.",
+  description: "Download videos from YouTube, TikTok, Instagram, Facebook and more. Free, fast, no watermark.",
   alternates: {
     canonical: "/",
   },
@@ -38,7 +38,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${geist.variable} ${inter.variable} h-full antialiased`}>
-      <body className="min-h-full bg-background text-text">
+      <body className="min-h-full bg-background text-foreground">
         {gaId ? (
           <>
             <Script

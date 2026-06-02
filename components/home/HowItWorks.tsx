@@ -1,26 +1,49 @@
-import { Card } from "@/components/ui/card";
+import { Clipboard, Download, MousePointerClick } from "lucide-react";
 
 const steps = [
-  ["Paste URL", "Drop in a public post, reel, clip, or watch link."],
-  ["Extract formats", "The API validates and returns available download options."],
-  ["Download instantly", "Choose a format and route through the edge download endpoint."],
+  {
+    Icon: Clipboard,
+    title: "Copy a public link",
+    desc: "Grab the share URL from the video you want to save.",
+    color: "#7c6cff",
+  },
+  {
+    Icon: MousePointerClick,
+    title: "Paste it into VideoSnap",
+    desc: "The extractor checks the platform and prepares options.",
+    color: "#22d3ee",
+  },
+  {
+    Icon: Download,
+    title: "Save your download",
+    desc: "Choose the available format and keep the file on your device.",
+    color: "#fb7185",
+  },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <p className="text-sm uppercase tracking-[0.3em] text-primary">How It Works</p>
-        <h2 className="mt-3 font-display text-3xl font-semibold text-white sm:text-4xl">Simple flow, built for scale.</h2>
-      </div>
-      <div className="grid gap-4 lg:grid-cols-3">
-        {steps.map(([title, body], index) => (
-          <Card key={title} className="relative overflow-hidden">
-            <span className="absolute right-5 top-5 text-4xl font-semibold text-white/10">0{index + 1}</span>
-            <h3 className="text-xl font-medium text-white">{title}</h3>
-            <p className="mt-3 max-w-sm text-sm leading-7 text-text-muted">{body}</p>
-          </Card>
-        ))}
+    <section id="how" className="bg-[#f7faff] py-12 sm:py-16">
+      <div className="site-container max-w-5xl">
+        <div className="mb-7 max-w-2xl">
+          <p className="section-kicker">How It Works</p>
+          <h2 className="mt-2 text-2xl font-black leading-tight text-[#20232a] sm:text-4xl">Three steps from link to download.</h2>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-3">
+          {steps.map((step, index) => (
+            <div key={step.title} className="rounded-lg border border-[#e7ebf1] bg-white p-5 shadow-[0_16px_45px_rgba(30,41,59,0.06)]">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-md" style={{ background: `${step.color}1f`, color: step.color }}>
+                  <step.Icon className="h-5 w-5" />
+                </div>
+                <span className="text-xs font-black text-[#a1a8b3]">0{index + 1}</span>
+              </div>
+              <h3 className="text-sm font-bold text-[#20232a] sm:text-base">{step.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-[#64676e]">{step.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

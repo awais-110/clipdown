@@ -64,60 +64,75 @@ function normalizeFormats(data: unknown): VideoFormat[] {
 
 export async function extractVideo(url: string): Promise<VideoInfo> {
   const apiKey = process.env.RAPIDAPI_KEY;
-
-  if (!apiKey) {
-    throw new Error("RAPIDAPI_KEY is not configured");
-  }
+  if (!apiKey) throw new Error('RAPIDAPI_KEY is not configured');
 
   const response = await fetch(
-    `https://social-media-video-downloader.p.rapidapi.com/smvd/get/all?url=${encodeURIComponent(url)}`,
+    'https://social-download-all-in-one.p.rapidapi.com/v1/social/autolink',
     {
-      method: "GET",
+      method: 'POST',
       headers: {
-        "X-RapidAPI-Key": apiKey,
-        "X-RapidAPI-Host": "social-media-video-downloader.p.rapidapi.com",
+        'Content-Type': 'application/json',
+        'X-RapidAPI-Key': apiKey,
+        'X-RapidAPI-Host': 'social-download-all-in-one.p.rapidapi.com',
       },
-      cache: "no-store",
-    },
+      body: JSON.stringify({ url }),
+    }
   );
 
   if (!response.ok) {
-    throw new Error(`RapidAPI error: ${response.status} ${response.statusText}`);
+    throw new Error(`RapidAPI error: ${response.status}`);
   }
 
-  const data = (await response.json()) as {
-    success?: boolean;
-    message?: string;
-    links?: unknown[];
-    source?: string;
-    title?: string;
-    thumbnail?: string;
-    picture?: string;
-    duration?: number;
-    author?: string;
-    uploader?: string;
-  };
+  const data = await response.json();
 
-  if (data.success === false) {
-    throw new Error(data.message || "Failed to extract video");
+  // DEBUG: log raw response so we can see exact shape
+  console.log('[extractor] raw response:', JSON.stringify(data, null, 2));
+
+  const formats: VideoFormat[] = [];
+
+  // Handle different response shapes this API returns
+  const medias = data.medias || data.links || data.data?.medias || data.data?.links || [];
+
+  for (const item of medias) {
+    const videoUrl = item.url || item.downloadUrl || item.src || item.link;
+    if (!videoUrl) continue;
+
+    const quality = item.quality || item.label || item.resolution || 'Best';
+    const ext = item.extension || item.format || item.type || 'mp4';
+    const isAudio = ext === 'mp3' || (typeof quality === 'string' && quality.toLowerCase().includes('audio'));
+
+    formats.push({
+      quality: isAudio ? 'audio' : quality,
+      format: isAudio ? 'mp3' : 'mp4',
+      url: videoUrl,
+      size: item.size || item.fileSize || undefined,
+    });
   }
 
-  const formats = normalizeFormats(data);
+  // Last resort — if API returns a direct video URL at top level
+  if (formats.length === 0 && data.url) {
+    formats.push({
+      quality: 'Best',
+      format: 'mp4',
+      url: data.url,
+    });
+  }
 
   if (formats.length === 0) {
-    throw new Error("No downloadable formats found for this URL");
+    // Log the full response to see what we got
+    console.error('[extractor] no formats found in:', JSON.stringify(data));
+    throw new Error('No downloadable formats found for this URL');
   }
 
-  const platform = detectPlatform(url);
-  const id = createHash("sha256").update(url).digest("base64url").slice(0, 16);
+  const id = Buffer.from(url).toString('base64url').slice(0, 16);
 
   return {
     id,
-    platform: data.source || platform,
-    title: data.title || "Untitled Video",
-    thumbnail: data.thumbnail || data.picture || "",
-    duration: formatDuration(data.duration || 0),
-    author: data.author || data.uploader || "@unknown",
+    platform: data.source || data.platform || 'facebook',
+    title: data.title || data.description || 'Facebook Video',
+    thumbnail: data.thumbnail || data.picture || data.image || '',
+    duration: data.duration ? formatDuration(Number(data.duration)) : '0:00',
+    author: data.author || data.uploader || data.channel || '@unknown',
     formats,
   };
 }

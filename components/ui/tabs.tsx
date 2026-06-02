@@ -11,8 +11,8 @@ export function Tab({ active, className, ...props }: TabProps) {
   return (
     <button
       className={cn(
-        "rounded-full border px-4 py-2 text-sm font-medium transition",
-        active ? "border-primary bg-primary/15 text-text" : "border-border bg-white/5 text-text-muted hover:text-text",
+        "rounded-2xl border px-4 py-2 text-sm font-medium transition-all duration-200",
+        active ? "border-white/20 bg-[var(--gradient-subtle)] text-white shadow-[0_12px_30px_rgba(99,102,241,0.2)]" : "border-white/10 bg-white/5 text-white/60 hover:border-white/20 hover:bg-white/10 hover:text-white",
         className,
       )}
       {...props}
